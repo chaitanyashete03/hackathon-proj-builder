@@ -1,6 +1,7 @@
 "use client";
-import React, { useState, useEffect, useCallback } from "react";
-import { Mic, MicOff, Command } from "lucide-react";
+import React, { useState, useCallback } from "react";
+import { Mic, Command } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface VoiceControlProps {
   onCommand: (command: string) => void;
@@ -30,7 +31,6 @@ export default function VoiceControl({ onCommand }: VoiceControlProps) {
       const text = event.results[current][0].transcript.toLowerCase();
       setTranscript(text);
       
-      // Map voice to commands
       if (text.includes("research")) onCommand("research");
       else if (text.includes("design")) onCommand("design");
       else if (text.includes("build")) onCommand("build");
@@ -45,27 +45,58 @@ export default function VoiceControl({ onCommand }: VoiceControlProps) {
   if (!supported) return null;
 
   return (
-    <div className="flex items-center gap-4 bg-white/[0.02] p-2 rounded-full border border-white/5 backdrop-blur-md w-full sm:w-auto">
-      <div className="relative">
-        {isListening && (
-          <div className="absolute inset-0 rounded-full bg-red-500 animate-[ping_1.5s_cubic-bezier(0,0,0.2,1)_infinite]" />
-        )}
-        <button 
+    <div className="flex items-center gap-4 group w-full sm:w-auto">
+      <div className="relative flex items-center justify-center">
+        <AnimatePresence>
+          {isListening && (
+            <>
+              {/* Cerulean pulse ring */}
+              <motion.div 
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 2.5, opacity: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ repeat: Infinity, duration: 1.5, ease: "easeOut" }}
+                className="absolute inset-0 rounded-full pointer-events-none"
+                style={{ background: 'rgba(43, 144, 217, 0.15)' }}
+              />
+              {/* Cerise pulse ring */}
+              <motion.div 
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1.8, opacity: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ repeat: Infinity, duration: 2, delay: 0.3, ease: "easeOut" }}
+                className="absolute inset-0 rounded-full pointer-events-none"
+                style={{ background: 'rgba(217, 59, 118, 0.10)' }}
+              />
+            </>
+          )}
+        </AnimatePresence>
+        
+        <motion.button 
           onClick={isListening ? undefined : startListening}
-          className={`relative z-10 p-4 rounded-full transition-all duration-300 shadow-lg ${isListening ? 'bg-red-500 text-white shadow-red-500/50' : 'bg-gradient-to-tr from-gray-800 to-gray-700 text-gray-300 hover:text-white border border-white/10 hover:border-white/20'}`}
+          className={`relative z-10 p-5 rounded-full transition-all duration-500 border backdrop-blur-md ${
+            isListening 
+              ? 'bg-accent-cerulean text-white border-accent-cerulean/60' 
+              : 'bg-glass-base text-text-secondary border-glass-border hover:border-accent-cerulean/30 hover:text-accent-cerulean'
+          }`}
+          whileTap={{ scale: 0.96 }}
+          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+          style={isListening ? { boxShadow: '0 0 30px rgba(43, 144, 217, 0.40)' } : undefined}
         >
-          {isListening ? <Mic className="w-5 h-5" /> : <MicOff className="w-5 h-5" />}
-        </button>
+          <Mic className={`w-5 h-5 ${isListening ? 'animate-pulse' : ''}`} />
+        </motion.button>
       </div>
-      <div className="flex items-center gap-2 text-sm text-gray-400 font-display px-2 pr-4">
-        {isListening ? (
-          <span className="text-red-400 animate-pulse">Listening for commands...</span>
-        ) : (
-          <>
-            <Command className="w-4 h-4 text-purple-400" />
-            <span>{transcript ? `"${transcript}"` : "Say 'Research' or 'Deploy'"}</span>
-          </>
-        )}
+
+      <div className="flex flex-col">
+        <div className="flex items-center gap-2">
+          <Command className="w-3.5 h-3.5 text-accent-cerulean/50" />
+          <span className={`text-xs font-display uppercase tracking-widest font-bold ${isListening ? 'text-accent-cerulean' : 'text-text-muted group-hover:text-text-secondary'} transition-colors`}>
+            {isListening ? "Listening..." : "Voice Control"}
+          </span>
+        </div>
+        <div className="text-sm text-text-secondary font-light truncate max-w-[200px]">
+          {isListening ? "Say 'Research' or 'Deploy'" : (transcript ? `"${transcript}"` : "Tap to activate")}
+        </div>
       </div>
     </div>
   );
