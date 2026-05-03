@@ -1,3 +1,45 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --background: #050505;
+    --foreground: #ffffff;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Aurora Background Effect */
+.bg-aurora {
+  background: linear-gradient(
+    45deg,
+    rgba(120, 119, 198, 0.15) 0%,
+    rgba(168, 85, 247, 0.1) 25%,
+    rgba(59, 130, 246, 0.15) 50%,
+    rgba(236, 72, 153, 0.1) 75%,
+    rgba(120, 119, 198, 0.15) 100%
+  );
+  background-size: 400% 400%;
+  animation: aurora 20s ease infinite;
+}

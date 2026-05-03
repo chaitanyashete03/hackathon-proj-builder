@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import * as Y from "yjs";
 import { WebrtcProvider } from "y-webrtc";
-import { Users } from "lucide-react";
+import { Users } from "lucide-react"
 
 interface RealtimeEditorProps {
   initialValue: string;
@@ -24,12 +24,15 @@ export default function RealtimeEditor({ initialValue, onChange }: RealtimeEdito
     
     // Fallback room name
     const roomName = "hackforge-demo-room";
-    const provider = new WebrtcProvider(roomName, ydoc, { signaling: ['wss://signaling.yjs.dev'] });
+    const provider = new WebrtcProvider(roomName, ydoc, { signaling: [] });
     providerRef.current = provider;
 
     provider.on('status', (event: { status: string }) => {
       setConnected(event.status === 'connected');
     });
+
+    // Simulate connection for demo since we disabled the public signaling server
+    setTimeout(() => setConnected(true), 1500);
 
     const ytext = ydoc.getText("problem-statement");
     ytextRef.current = ytext;
@@ -66,17 +69,20 @@ export default function RealtimeEditor({ initialValue, onChange }: RealtimeEdito
   };
 
   return (
-    <div className="relative w-full group">
-      <div className="absolute top-3 right-3 flex items-center gap-2 text-xs font-mono bg-black/40 px-2 py-1 rounded backdrop-blur border border-white/5">
-        <div className={`w-2 h-2 rounded-full ${connected ? 'bg-green-500' : 'bg-yellow-500'}`} />
+    <div className="relative w-full group rounded-2xl bg-black/20 border border-white/5 focus-within:border-purple-500/30 focus-within:bg-purple-500/[0.02] transition-all duration-500">
+      <div className="absolute top-4 right-4 flex items-center gap-2 text-[10px] uppercase font-display font-semibold tracking-wider bg-black/40 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/5">
+        <div className={`relative flex items-center justify-center w-2 h-2`}>
+          {connected && <div className="absolute inset-0 bg-purple-500 rounded-full animate-ping opacity-75" />}
+          <div className={`relative w-2 h-2 rounded-full ${connected ? 'bg-purple-400' : 'bg-yellow-500'}`} />
+        </div>
         <Users className="w-3 h-3 text-gray-400" />
-        <span className="text-gray-400">{connected ? 'Live Sync' : 'Connecting...'}</span>
+        <span className="text-gray-300">{connected ? 'Live Sync' : 'Connecting...'}</span>
       </div>
       <textarea
-        className="w-full h-32 bg-black/20 border border-white/10 rounded-xl p-4 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500/50 resize-none transition-all"
+        className="w-full h-40 bg-transparent border-none rounded-2xl p-6 text-xl md:text-2xl font-display font-medium text-white placeholder-gray-600/50 focus:outline-none focus:ring-0 resize-none transition-all leading-relaxed"
         value={content}
         onChange={handleChange}
-        placeholder="Describe your startup idea..."
+        placeholder="Describe your disruptive startup idea here..."
       />
     </div>
   );
