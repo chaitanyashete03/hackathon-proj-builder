@@ -1,0 +1,68 @@
+#!/bin/bash
+# setup.sh - Creates structure, writes package.json, installs deps, setups env
+
+mkdir -p app/api/research app/api/generate app/api/design app/api/ux app/api/deploy
+mkdir -p app/research app/designer app/flow app/builder
+mkdir -p components/ui lib/templates supabase/migrations
+mkdir -p public
+
+cat << 'EOF' > package.json
+{
+  "name": "hackforge",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@google/generative-ai": "0.19.0",
+    "@react-three/drei": "9.105.0",
+    "@react-three/fiber": "8.16.2",
+    "@supabase/supabase-js": "2.45.0",
+    "@tavily/core": "0.3.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "11.2.10",
+    "jszip": "3.10.1",
+    "lucide-react": "^0.436.0",
+    "nanoid": "5.0.7",
+    "next": "14.2.5",
+    "peerjs": "1.4.7",
+    "react": "18.3.1",
+    "react-confetti": "6.1.0",
+    "react-dom": "18.3.1",
+    "reactflow": "11.11.0",
+    "tailwind-merge": "^2.5.2",
+    "three": "0.168.0",
+    "y-webrtc": "10.2.5",
+    "yjs": "13.6.15"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "@types/three": "^0.168.0",
+    "autoprefixer": "^10.4.19",
+    "eslint": "8.57.0",
+    "eslint-config-next": "14.2.5",
+    "postcss": "8.4.41",
+    "tailwindcss": "3.4.10",
+    "typescript": "5.5.4"
+  }
+}
+EOF
+
+cat << 'EOF' > .env.example
+TAVILY_API_KEY=tvly-mock-key
+NEXT_PUBLIC_SUPABASE_URL=https://mock.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=mock-anon-key
+GEMINI_API_KEY=mock-gemini-key
+EOF
+
+cp .env.example .env.local
+
+echo "Installing dependencies... (this might take a minute)"
+npm install
+echo "Done! Run 'node generate-remaining.js' then 'npm run dev'"
