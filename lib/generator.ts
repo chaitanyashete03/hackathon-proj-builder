@@ -230,7 +230,7 @@ function getFallbackContent(fileName: string, input: GenerateInput): string {
       dependencies: { next: '14.2.5', react: '^18', 'react-dom': '^18', 'framer-motion': '^11' },
       devDependencies: { typescript: '^5', tailwindcss: '^3.4.0', autoprefixer: '^10.0.1', postcss: '^8' }
     }, null, 2),
-    'README.md': `# ${input.projectName}\n\n${input.tagline}\n\n${input.productVision}\n\n## Setup\n\n\`\`\`bash\nnpm install\nnpm run dev\n\`\`\``,
+    'README.md': `# ${input.projectName}\n\n${input.tagline}\n\n${input.productVision}\n\n## Setup\n\n\`\`\`bash\nnpm install\nnpm run dev\n\`\`\`\n\nBuilt with AXON`,
     'app/page.tsx': `export default function Home() { return <div className="min-h-screen bg-black text-white flex items-center justify-center"><h1 className="text-4xl font-bold">${input.projectName}</h1></div>; }`,
   };
   return fallbacks[fileName] || `// ${fileName} — generation failed, please regenerate`;

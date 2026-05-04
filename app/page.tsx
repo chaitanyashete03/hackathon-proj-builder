@@ -202,14 +202,14 @@ export default function Home() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${(researchData as { projectName?: string })?.projectName || "hackforge-project"}.zip`;
+    a.download = `${(researchData as { projectName?: string })?.projectName || "axon-project"}.zip`;
     a.click();
     URL.revokeObjectURL(url);
   };
 
   // Deploy to Vercel
   const handleDeploy = () => {
-    const name = (researchData as { projectName?: string })?.projectName || "hackforge-project";
+    const name = (researchData as { projectName?: string })?.projectName || "axon-project";
     window.open(`https://vercel.com/new?projectName=${encodeURIComponent(name)}`, "_blank");
   };
 
@@ -230,20 +230,20 @@ export default function Home() {
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 glass-chip mb-6">
                   <Sparkles className="w-4 h-4 text-accent-cerulean animate-pulse" />
                   <span className="text-xs font-display tracking-widest uppercase font-semibold text-accent-cerulean/80">
-                    HackForge Engine v2.0
+                    AXON Engine v2.0
                   </span>
                 </div>
               </FloatingElement>
             </StaggerItem>
             <StaggerItem>
               <h1 className="text-5xl md:text-7xl font-display font-extrabold tracking-tighter mb-4 text-text-primary leading-[1.05]">
-                Build hackathon projects<br />
-                <span className="text-gradient-hero">at thought speed.</span>
+                Build projects at<br />
+                <span className="text-gradient-hero">thought speed.</span>
               </h1>
             </StaggerItem>
             <StaggerItem>
               <p className="text-lg text-text-secondary max-w-xl font-light leading-relaxed">
-                Brief → Research → Generate → Preview → Deploy. The complete AI project factory.
+                Brief → Research → Generate → Preview → Deploy. The complete AXON project factory.
               </p>
             </StaggerItem>
           </StaggerContainer>

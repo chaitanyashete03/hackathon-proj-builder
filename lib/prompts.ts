@@ -248,7 +248,7 @@ Generate a professional README.md for ${input.projectName} that includes:
 4. Tech stack table
 5. Quick setup: git clone, npm install, npm run dev
 6. Project structure
-7. Built with HackForge badge
+7. Built with AXON badge
 
 Return ONLY the markdown content, no explanation.`,
   };
