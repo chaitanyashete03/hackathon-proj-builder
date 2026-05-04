@@ -12,6 +12,7 @@
     "@google/generative-ai": "0.19.0",
     "@react-three/drei": "9.105.0",
     "@react-three/fiber": "8.16.2",
+    "@stackblitz/sdk": "^1.11.0",
     "@supabase/supabase-js": "2.45.0",
     "@tavily/core": "^0.7.3",
     "clsx": "^2.1.1",
